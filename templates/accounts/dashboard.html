@@ -1,0 +1,122 @@
+{% extends 'base.html' %} {% load static %} {% load humanize %} {% load cropping thumbnail %}
+
+{% block content %}
+
+<!-- Breadcrumb Section Begin -->
+<div class="breacrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <a href="{% url 'index' %}"><i class="fa fa-home"></i> Home</a>
+                    <span>{{ title }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Section Begin -->
+
+<!-- Product Shop Section Begin -->
+<section class="product-shop spad">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <H1>{{ title }}</H1>
+                <br><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 order-1 order-lg-2">
+                <div class="product-list">
+                    <div class="row justify-content-center">
+                        {% if productList %}{% for pl in productList %}{% for product in pl %}
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="product-item">
+                                <div class="pi-pic">
+                                    <img src="{% cropped_thumbnail product 'profile_photo_crop' %}" alt="">
+                                    <div class="sale pp-sale">Sale</div>
+                                    <div class="icon">
+                                        <i class="icon_heart_alt"></i>
+                                    </div>
+                                    <ul>
+                                        <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                        <li class="quick-view"><a href="{% url 'product' product=product.slug shop=product.shop.slug %}">+ Quick View</a></li>
+                                        <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="pi-text">
+                                    <div class="catagory-name">{{ product.product_type }}</div>
+                                    <a href="#">
+                                        <h5>{{ product.name }}</h5>
+                                    </a>
+                                    <div class="product-price">
+                                        <span>&#8377;</span> {{ product.original_rate }}
+                                        {% if product.discounted_rate %}
+                                        <span><span>&#8377;</span> {{ product.discounted_rate }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endfor %}
+                        {% else %}
+                            No Products Found
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <nav aria-label="Page navigation ">
+                    {% if productList.has_other_pages %}
+                    <ul class="pagination">
+                        {% if productList.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{productList.previous_page_number}}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        {% endif %} {% for i in productList.paginator.page_range %} {% if productList.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link">{{i}}</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{i}}">{{i}}</a>
+                        </li>
+                        {% endif %} {% endfor %} {% if productList.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{productList.next_page_number}}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Shop Section End -->
+
+{% endblock %}

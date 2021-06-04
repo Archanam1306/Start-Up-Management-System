@@ -1,0 +1,200 @@
+{% extends 'base.html' %} {% load static %} {% load humanize %} {% load cropping thumbnail %}
+
+{% block content %}
+<!-- Breadcrumb Section Begin -->
+<div class="breacrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text product-more">
+                    <a href="{% url 'index' %}"><i class="fa fa-home"></i> Home</a>
+                    <a href="{% url 'shoplist' %}">Shop</a>
+                    <span>Detail</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Section Begin -->
+
+<!-- Product Shop Section Begin -->
+<section class="product-shop spad page-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="product-pic-zoom">
+                            <img class="product-big-img" src="{% cropped_thumbnail product 'photo_1_crop' %}" alt="">
+                        </div>
+                        <div class="product-thumbs">
+                            <div class="product-thumbs-track ps-slider owl-carousel">
+                                <div class="pt active" data-imgbigurl="{% cropped_thumbnail product 'photo_1_crop' %}"><img
+                                    src="{% cropped_thumbnail product 'photo_1_crop' %}" alt=""></div>
+                                <div class="pt" data-imgbigurl="{% cropped_thumbnail product 'photo_2_crop' %}"><img
+                                        src="{% cropped_thumbnail product 'photo_2_crop' %}" alt=""></div>
+                                <div class="pt" data-imgbigurl="{% cropped_thumbnail product 'photo_3_crop' %}"><img
+                                        src="{% cropped_thumbnail product 'photo_3_crop' %}" alt=""></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="product-details">
+                            <div class="pd-title">
+                                <span>{{ product.product_type }}</span>
+                                <h3>{{ product.name }}</h3>
+
+                                {% if user.is_authenticated %}
+                                {% if not add %}
+                                <a class="heart-icon" type="button" href="javascript:{document.getElementById('wishlist_1').submit()}">
+                                    <span class="icon_heart_alt" ></span>
+                                </a>
+                                {% endif %}
+                                {% if add %}
+                                <a class="heart-icon" type="button" href="javascript:{document.getElementById('wishlist_2').submit()}">
+                                    <span class="icon_heart" ></span>
+                                </a>
+                                {% endif %}
+                                {% else %}
+                                <a class="heart-icon" type="button" href="{% url 'login' %}">
+                                    <span class="icon_heart_alt" ></span>
+                                </a>
+                                {% endif %}
+                                <form action="{% url 'wishlist' %}" method="POST" id="wishlist_1">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <input type="hidden" name="shop" value="{{ product.shop.slug }}">
+                                    <input type="hidden" name="product" value="{{ product.slug }}">
+                                    <input type="hidden" name="add" value="1">
+                                </form>
+                                <form action="{% url 'wishlist' %}" method="POST" id="wishlist_2">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <input type="hidden" name="shop" value="{{ product.shop.slug }}">
+                                    <input type="hidden" name="product" value="{{ product.slug }}">
+                                    <input type="hidden" name="add" value="0">
+                                </form>
+                            </div>
+                            <div class="pd-desc">
+                                <p>{{ product.description_1 | safe }}</p>
+                                <h4><span>&#8377;</span> {{ product.original_rate }}<span> 
+                                    {% if product.discounted_rate %}
+                                    <span>&#8377;</span> {{product.discounted_rate}}</span>
+                                    {% endif %}
+                                </h4>
+                            </div>
+                            {% if product.is_size %}
+                            <div class="pd-size-choose">
+                                <div class="sc-item">
+                                    <input type="radio" id="sm-size">
+                                    <label for="sm-size">s</label>
+                                </div>
+                                <div class="sc-item">
+                                    <input type="radio" id="md-size">
+                                    <label for="md-size">m</label>
+                                </div>
+                                <div class="sc-item">
+                                    <input type="radio" id="lg-size">
+                                    <label for="lg-size">l</label>
+                                </div>
+                                <div class="sc-item">
+                                    <input type="radio" id="xl-size">
+                                    <label for="xl-size">xs</label>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="quantity">
+                                <div class="pro-qty">
+                                    <input type="text" value="1">
+                                </div>
+                                <a href="#" class="primary-btn pd-cart">Add To Cart</a>
+                            </div>
+                            
+                            <ul class="pd-tags">
+                                <li><span>CATEGORIES</span>: {{ product.category }}</li>
+                                <li><span>TAGS</span>: {{ product.tag }}</li>
+                                <li><span>SOLD BY</span>: {{ product.shop.name }}</li>
+                            </ul>
+                            <a href="{% url 'shop' shop=product.shop.slug %}" class="primary-btn">Visit Store</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-tab">
+                    <div class="tab-item">
+                        <ul class="nav" role="tablist">
+                            <li>
+                                <a class="active" data-toggle="tab" href="#tab-1" role="tab">DESCRIPTION</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#tab-2" role="tab">SPECIFICATIONS</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-item-content">
+                        <div class="tab-content">
+                            <div class="tab-pane fade-in active" id="tab-1" role="tabpanel">
+                                <div class="product-content">
+                                    <div class="row">
+                                        <div class="col-lg-7">
+                                            {{ product.description_main | safe }}
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <img src="{% cropped_thumbnail product 'description_image_crop' %}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                                <div class="specification-table">
+                                    <table>
+
+                                        <tr>
+                                            <td class="p-catagory">Price</td>
+                                            <td>
+                                                <div class="p-price"><span>&#8377;</span> {{ product.original_rate }}</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-catagory">Add To Cart</td>
+                                            <td>
+                                                <div class="cart-add">+ add to cart</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-catagory">Availability</td>
+                                            <td>
+                                                <div class="p-stock">{{ product.stock_available }} in stock</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-catagory">Weight</td>
+                                            <td>
+                                                <div class="p-weight">{{ product.weight }}</div>
+                                            </td>
+                                        </tr>
+                                        {% if product.is_size %}
+                                        <tr>
+                                            <td class="p-catagory">Size</td>
+                                            <td>
+                                                <div class="p-size">{{ product.size }}</div>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                        <tr>
+                                            <td class="p-catagory">Color</td>
+                                            <td>
+                                                <div class="p-size">{{ product.color }}</div>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
