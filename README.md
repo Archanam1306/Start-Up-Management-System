@@ -2,8 +2,11 @@
 
 TOOLS USED -
 DJANGO
+
 POSTGRES
+
 HTML
+
 CSS
 
 “Start-up Management System” is the best software for managing highly customizable Start-up
