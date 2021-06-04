@@ -12,4 +12,4 @@ hassle free system that can replace all this and work effortlessly and effective
 manage startup communities.
 
 
-Please find the [Report](https://github.com/Gokhulnath/startupProject/blob/main/Start-up_Management_System.pdf) here.
+Please find the [Report](https://github.com/Gayathri-Mahendran2/Start-Up-Management-System//Start-up_Management_System.pdf) here.
