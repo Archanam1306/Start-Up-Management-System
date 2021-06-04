@@ -1,5 +1,11 @@
 # StartUp Management Application (OOAD Mini Project)
 
+TOOLS USED -
+DJANGO
+POSTGRES
+HTML
+CSS
+
 “Start-up Management System” is the best software for managing highly customizable Start-up
 ideas and bypassing the technical aspect of establishing a start-up. In today’s generation
 people prefer getting products delivered to their homes and are hence dependent on startup’s
