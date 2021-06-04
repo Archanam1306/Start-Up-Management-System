@@ -1,13 +1,14 @@
 # StartUp Management Application (OOAD Mini Project)
 
-TOOLS USED -
-DJANGO
+## TOOLS USED -
 
-POSTGRES
+### DJANGO
 
-HTML
+### POSTGRES
 
-CSS
+### HTML
+
+### CSS
 
 “Start-up Management System” is the best software for managing highly customizable Start-up
 ideas and bypassing the technical aspect of establishing a start-up. In today’s generation
