@@ -1,4 +1,4 @@
-# StartUp Management Application (OOAD Mini Project)
+# StartUp Management Application 
 
 ## TOOLS USED -
 
